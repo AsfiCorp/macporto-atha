@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useOS } from "@/lib/os";
 
 /**
  * Robot interaktif di wallpaper: kepala & mata mengikuti kursor (3D via CSS
@@ -15,6 +16,7 @@ export default function WallpaperRobot() {
   const cur = useRef({ x: 0, y: 0 });
   const raf = useRef(0);
   const [mood, setMood] = useState<Mood>("idle");
+  const { openApp } = useOS();
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -55,7 +57,15 @@ export default function WallpaperRobot() {
     <div ref={root} className="robot-scene pointer-events-none absolute bottom-16 left-6 z-[5] sm:left-12" aria-hidden>
       {/* bayangan lantai */}
       <div className={`robot-shadow ${mood === "excited" ? "robot-shadow-jump" : ""}`} />
-      <div className={`robot-float ${mood === "spin" ? "robot-spin" : ""}`} onClick={nextMood}>
+      <div
+        className={`robot-float ${mood === "spin" ? "robot-spin" : ""}`}
+        role="button"
+        aria-label="Chat"
+        onClick={() => {
+          nextMood();
+          openApp("chat");
+        }}
+      >
         <div className={`robot-head ${mood === "excited" ? "robot-glow" : ""}`} role="button" tabIndex={-1}>
           {/* antena */}
           <div className="robot-antenna">
