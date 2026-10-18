@@ -60,6 +60,8 @@ body {
 .robot-float {
   animation: robot-float 3.4s ease-in-out infinite;
   transform-style: preserve-3d;
+  pointer-events: auto;
+  cursor: pointer;
 }
 .robot-shadow {
   height: 14px;

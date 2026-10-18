@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MenuBar from "./MenuBar";
 import Dock from "./Dock";
 import DesktopIcons from "./DesktopIcons";
@@ -40,6 +40,7 @@ export default function Desktop({ children }: { children: React.ReactNode }) {
   const { open, active, focusApp } = useOS();
   const [booted, setBooted] = useState(false);
   const [dark, setDark] = useState(true);
+  const vidRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("os-theme");
@@ -57,9 +58,12 @@ export default function Desktop({ children }: { children: React.ReactNode }) {
       {!booted && <BootScreen onDone={() => setBooted(true)} />}
       <div className="wallpaper" />
       <video
+        ref={vidRef}
         className="absolute inset-0 h-full w-full object-cover"
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_063509_7d167302-4fd4-480b-8260-18ab572333d4.mp4"
-        autoPlay loop muted playsInline
+        autoPlay loop muted playsInline preload="auto"
+        onStalled={() => { vidRef.current?.load(); vidRef.current?.play().catch(() => {}); }}
+        onError={(e) => { e.currentTarget.style.display = "none"; }}
       />
       <div className="wallpaper-overlay absolute inset-0" />
       <WallpaperRobot />

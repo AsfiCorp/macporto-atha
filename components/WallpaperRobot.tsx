@@ -54,7 +54,7 @@ export default function WallpaperRobot() {
     setMood((m) => (m === "idle" ? "wave" : m === "wave" ? "spin" : m === "spin" ? "excited" : "idle"));
 
   return (
-    <div ref={root} className="robot-scene pointer-events-none absolute bottom-16 left-6 z-[5] sm:left-12" aria-hidden>
+    <div ref={root} className="robot-scene pointer-events-none absolute bottom-16 left-6 z-[5] sm:left-12">
       {/* bayangan lantai */}
       <div className={`robot-shadow ${mood === "excited" ? "robot-shadow-jump" : ""}`} />
       <div
